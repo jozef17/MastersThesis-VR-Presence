@@ -2,82 +2,52 @@
 
 #pragma once
 
-#include "KinectBridge.h"
-#include "LeapBridge.h"
+#include "UserRepresentation.h"
 #include "Engine.h"
-#include "GameFramework/Character.h"
 #include "DPCharacter.generated.h"
 
-#define NUM_CONNECTORS 22	// number of connecting parts in mode 0
-#define BODY_PARTS_COUNT 14 // number of body parts in mode 1
-#define HAND_PARTS_COUNT 0  // number of hand parts in mode 1
-
 UCLASS()
-class DP_API ADPCharacter : public ACharacter
+class DP_API ADPCharacter : public APawn
 {
 	GENERATED_BODY()
-
-private:
-	const int USER_MODES = 2;
-	KinectBridge *kinect;
-	LeapBridge *leap;
-
-	USpringArmComponent *SpringArm;
-	UCameraComponent *Camera;
-	UTextRenderComponent *message;
-
-	USceneComponent *HandRoot[2];
-
-	// Mode 0 (Kinect Sceletal points)
-	UStaticMeshComponent *SkeletalPoints[NUM_JOINTS];
-	UStaticMeshComponent *Connetctors[NUM_CONNECTORS];
-
-	// Mode 1 (Kinect Body)
-	UStaticMeshComponent *BodyParts[BODY_PARTS_COUNT + HAND_PARTS_COUNT];
-	float scales[BODY_PARTS_COUNT + HAND_PARTS_COUNT];
-
-protected:
-	virtual void BeginPlay() override;
-
-	void initMode0();
-	void initMode1(); // TODO
-
-	void hideMode0();
-	void hideMode1(); // TODO
-
-	void setMode0(); // TODO
-	void setMode1(); // TODO
 
 public:
 	ADPCharacter();
 
-	// UE4 functions
-	virtual void Tick(float DeltaTime) override;	// Called every frame
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;	// Called to bind functionality to input
+private:
+	AUserRepresentation * current = nullptr;
 
-	// Specific functions
-	// Action to change user representation - Sceleton / Body
-	UFUNCTION(BlueprintCallable)
-	void ChangeUserRepresentation();	
-	
-	// Returns current user representation mode
-	UFUNCTION(BlueprintPure)
-	int GetCurrentMode();
+	USpringArmComponent * SpringArm;
+	UCameraComponent *Camera;
 
+	FVector avg;
+	FVector counter;
+
+	void ChangeUserRepresentation();	// Action to change user representation - Sceleton / Body
+	void Exit();						// Exits Game
+	void ResetBallPOsition();			// Resets default Ball position in Foorball
+	void ResetPuckPosition();			// Resets default Puck position in Hockey
+	void RotateHockeyStick();			// Rotates Hockey Stick 180 degrees
+
+	void MoveForward(float val);
+	void MoveRight(float val);
+	void MoveUp(float val);
+
+protected:
+	virtual void BeginPlay() override;
+
+public:
+	// Called to bind functionality to input
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	// Returns current camera (HMD) rotation
+	FRotator GetCameraRotation();
+
+	// Sets Camera Relative Location
+	void SetCameraLocation(FVector camLocation);
+	FVector GetCameraLocation();
 
 	// Blueprint settable components
 	UPROPERTY(EditAnywhere, meta = (ClampMin = "0", ClampMax = "1", UIMin = "0", UIMax = "1"))
-	int mode = 0;
-
-	// Kinect Height from floor
-	UPROPERTY(EditAnywhere)
-	float KinectHeightOffset = 100.0;
-
-	// Mode 1
-	UPROPERTY(EditAnywhere)
-	FVector SkeletalPointsSize = FVector(0.08f, 0.08f, 0.08f);
-
-	// Material that will be aplied on user representation body
-	UPROPERTY(EditAnywhere)
-	UMaterial *BodyMaterial;
+	int mode = 1;
 };

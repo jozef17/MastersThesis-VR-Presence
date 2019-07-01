@@ -8,5 +8,3 @@ ADPGameModeBase::ADPGameModeBase()
 	DefaultPawnClass = ADPCharacter::StaticClass();
 
 }
-
-

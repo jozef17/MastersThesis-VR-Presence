@@ -23,6 +23,12 @@ static inline void safeRelease(Interface *&interfaceToRelease)
 
 
 
+
+KinectBridge::KinectBridge()
+{
+	connect();
+}
+
 bool KinectBridge::getKinectData()
 {
 	bool found = false;
@@ -96,6 +102,11 @@ bool KinectBridge::connect()
 	return true;
 }
 
+void KinectBridge::disconnect()
+{
+
+}
+
 FVector * KinectBridge::getLoactions()
 {
 	// Get data from Kinect
@@ -105,7 +116,7 @@ FVector * KinectBridge::getLoactions()
 	minZ = 0;
 
 	// Convert data from Kinect to UE4
-	for (int i = 0; i < NUM_JOINTS; i++) {
+	for (int i = 0; i < KINECT_JOINTS_COUNT; i++) {
 		bodyData[i].Set(-joints[i].Position.Z * 100, joints[i].Position.X * 100, joints[i].Position.Y * 100);
 
 		if (bodyData[i].Z < bodyData[minZ].Z)

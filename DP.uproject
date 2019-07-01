@@ -1,6 +1,6 @@
 {
 	"FileVersion": 3,
-	"EngineAssociation": "4.16",
+	"EngineAssociation": "4.18",
 	"Category": "",
 	"Description": "",
 	"Modules": [
@@ -9,7 +9,9 @@
 			"Type": "Runtime",
 			"LoadingPhase": "Default",
 			"AdditionalDependencies": [
-				"Engine"
+				"Engine",
+				"PhysXVehicles",
+				"CoreUObject"
 			]
 		}
 	],
@@ -40,10 +42,6 @@
 		},
 		{
 			"Name": "AndroidMoviePlayer",
-			"Enabled": false
-		},
-		{
-			"Name": "AppleMoviePlayer",
 			"Enabled": false
 		},
 		{
@@ -89,6 +87,25 @@
 		{
 			"Name": "LeapMotion",
 			"Enabled": true
+		},
+		{
+			"Name": "SteamVR",
+			"Enabled": false
+		},
+		{
+			"Name": "AppleARKit",
+			"Enabled": false
+		},
+		{
+			"Name": "AppleMoviePlayer",
+			"Enabled": false
+		},
+		{
+			"Name": "OnlineSubsystemGooglePlay",
+			"Enabled": false,
+			"SupportedTargetPlatforms": [
+				"Android"
+			]
 		}
 	],
 	"TargetPlatforms": [

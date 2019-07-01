@@ -2,51 +2,60 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "GameFramework/Actor.h"
-#include "Runtime/Engine/Classes/Materials/Material.h"
+#include "Game.h"
+#include "TowerOfHanoiDisk.h"
+#include "Engine.h"
 #include "TowerOfHanoi.generated.h"
 
+typedef struct {
+	char stick;		// 0-3
+	char height;	//0-5
+}loc_t;
+
 UCLASS()
-class DP_API ATowerOfHanoi : public AActor
+class DP_API ATowerOfHanoi : public AGame
 {
 	GENERATED_BODY()
-	
+
 private:
+	float timeLeft = 0.0f;
+
+	int diskCount;
+
 	// Game Elements
+	UParticleSystemComponent *firework;
 	UStaticMeshComponent *Bottom;
 	UStaticMeshComponent *Sticks[3];
-	UStaticMeshComponent **Disks;
+	ATowerOfHanoiDisk *Disks[6];
+
+	UBoxComponent *levels[3][6];
+	UBoxComponent *borders;
 
 	void InitComponents();
+	char stickMap[3][6];
+	loc_t diskLocations[6];
+
+	void create(int disk);
+
+	bool initRunning = true;
+
+	UFUNCTION()
+	void Entry(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	UFUNCTION()
+	void LeaveBorder(UPrimitiveComponent * OverlappedComp, AActor * OtherActor, UPrimitiveComponent * OtherComp, int32 OtherBodyIndex);
 
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 public:
+	static int numOfDisks;
+
 	ATowerOfHanoi();
-	~ATowerOfHanoi();
 
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	virtual void ResetGame() override;
+	virtual FVector getPositionOffset() override;
 
-	UPROPERTY(EditAnywhere, meta = (ClampMin = "2", ClampMax = "6", UIMin = "2", UIMax = "6") )
-		unsigned int NumOfDisks = 6;
+	virtual void Tick(float delta) override;
 
-	UPROPERTY(EditAnywhere)
-		UMaterial *Material;
-
-	UPROPERTY(EditAnywhere)
-		UMaterial *Disk0Material;
-	UPROPERTY(EditAnywhere)
-		UMaterial *Disk1Material;
-	UPROPERTY(EditAnywhere)
-		UMaterial *Disk2Material;
-	UPROPERTY(EditAnywhere)
-		UMaterial *Disk3Material;
-	UPROPERTY(EditAnywhere)
-		UMaterial *Disk4Material;
-	UPROPERTY(EditAnywhere)
-		UMaterial *Disk5Material;
 };
