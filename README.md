@@ -1,7 +1,7 @@
 # Master's Thesis
 # User Representation and Interaction in Virtual Reality Focusing on Presence
 
-[Master's Thesis](http://opac.crzp.sk/?fn=*docview&linkage=338B0A90B1F6F09967035C3F5B1B82E696F9A659311A67C858A9EA7BD26F0936DEF37D771003C454D27167E9B633C323847047E37C1357&record=ABCEC5876A40CFC0D991D9344C66&bckLnk=7939C38F204B435FAA9528AF9FF99A05E1B6125E918C8DEA4B0CBB89EA5B61D4983157C9&sth=2B55FF0F18257B6FC170138D&mim=A1EBDA02D9AEA1)
+[Master's Thesis](https://opac.crzp.sk/?fn=detailBiblioForm&sid=ABCEC5876A40CFC0D991D9344C66)
 
 [Appendix A: Evaluation of Work Plan](src/AppendixA.pdf)
 
